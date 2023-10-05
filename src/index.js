@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
 
-const axios = require('axios').default;
+
 axios.defaults.baseURL = 'https://pixabay.com/api/';
 
 const form = document.querySelector('.search-form');
