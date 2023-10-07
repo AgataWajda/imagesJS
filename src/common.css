@@ -20,6 +20,7 @@ input {
 
 .submit-btn {
   height: 29px;
+  cursor: pointer;
 }
 
 .gallery {
@@ -39,7 +40,7 @@ input {
 
 img {
   object-fit: cover;
-  width: 370px;
+  width: 350px;
   height: 230px;
   border-top-left-radius: 5%;
   border-top-right-radius: 5%;
@@ -55,4 +56,23 @@ img {
   box-sizing: border-box;
   flex-direction: column;
   align-items: center;
+}
+
+.is-hidden {
+  display: none;
+  visibility: hidden;
+}
+
+.load-more {
+  margin: 15px auto;
+  width: 20%;
+  margin-left: 38%;
+  background-color: lightblue;
+  font-size: 25px;
+  cursor: pointer;
+  border-width: 1px;
+}
+
+.load-more:hover {
+  background-color: lightcyan;
 }

@@ -1,27 +1,43 @@
 import axios from 'axios';
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
-
+import SimpleLightbox from 'simplelightbox';
+import 'simplelightbox/dist/simple-lightbox.min.css';
 
 axios.defaults.baseURL = 'https://pixabay.com/api/';
 
 const form = document.querySelector('.search-form');
 const input = document.querySelector('input');
 const gallery = document.querySelector('.gallery');
+const loadMore = document.querySelector('.load-more');
+let page = 1;
 
 form.addEventListener('submit', event => {
   event.preventDefault();
   let value = input.value;
+  page = 1;
   gallery.innerHTML = '';
-  fetchGallery(value)
+  fetchGallery(value, page)
     .then(data => makeGallery(data))
     .catch(error => console.log(error));
 });
 
+loadMore.addEventListener('click', () => {
+  page++;
+  let value = input.value;
+  console.log(page);
+  fetchGallery(value, page)
+    .then(data => makeGallery(data))
+    .catch(error => console.log(error));
+});
+
+gallery.addEventListener('click', event => {
+  let modal = new SimpleLightbox(event, {});
+});
 //----------------------------------------
 
-const fetchGallery = async q => {
+const fetchGallery = async (q, page) => {
   const response = await axios.get(
-    `?key=39840691-deed82df9d56c5b25606cb90f&q=${q}&orientation=horizontal&safesearch=true&per_page=40&image_type=photo`
+    `?key=39840691-deed82df9d56c5b25606cb90f&q=${q}&orientation=horizontal&safesearch=true&per_page=40&page=${page}&image_type=photo`
   );
   const allData = await response.data;
   const validateData = await validateArray(allData);
@@ -34,9 +50,20 @@ function validateArray(val) {
     Notify.failure(
       `Sorry, there are no images matching your search query. Please try again.`
     );
+    loadMore.classList.add('is-hidden');
     throw new Error();
+  } else if (!val.hits[0]) {
+    Notify.failure(
+      `We're sorry, but you've reached the end of search results.`
+    );
+    loadMore.classList.add('is-hidden');
+    throw new Error();
+  } else {
+    if (page === 1) {
+      Notify.success(`Hooray! We found ${val.totalHits} images.`);
+    }
+    loadMore.classList.remove('is-hidden');
   }
-
   return val.hits;
 }
 
@@ -54,7 +81,15 @@ function filterData(array) {
 
 function makeGallery(data) {
   data.forEach(element => {
-    const { webformatURL, tags, likes, views, comments, downloads } = element;
+    const {
+      largeImageURL,
+      webformatURL,
+      tags,
+      likes,
+      views,
+      comments,
+      downloads,
+    } = element;
     let markup = `<div class="photo-card">
   <img src="${webformatURL}" alt="${tags}" loading="lazy" />
   <div class="info">
@@ -78,4 +113,12 @@ function makeGallery(data) {
 </div>`;
     gallery.insertAdjacentHTML('beforeend', markup);
   });
+}
+
+function getmorePosts(page) {
+  let value = input.value;
+  page++;
+  fetchGallery(value, page)
+    .then(data => makeGallery(data))
+    .catch(error => console.log(error));
 }
