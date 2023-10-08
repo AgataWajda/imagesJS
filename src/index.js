@@ -80,9 +80,10 @@ function filterData(array) {
 }
 
 function makeGallery(data) {
+  console.log(data);
   data.forEach(element => {
     const {
-      largeImageURL,
+      largeImage,
       webformatURL,
       tags,
       likes,
@@ -90,8 +91,10 @@ function makeGallery(data) {
       comments,
       downloads,
     } = element;
+
+    console.log(largeImage);
     let markup = `<div class="photo-card">
-    <a class = "photo-link" href ="${largeImageURL}">
+    <a class = "photo-link" href ="${largeImage}">
   <img src="${webformatURL}" alt="${tags}" loading="lazy" /></a>
   <div class="info">
     <p class="info-item">
