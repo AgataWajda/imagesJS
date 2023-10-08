@@ -1,9 +1,7 @@
-import axios from 'axios';
-import { Notify } from 'notiflix/build/notiflix-notify-aio';
 import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
-
-axios.defaults.baseURL = 'https://pixabay.com/api/';
+import { Notify } from 'notiflix/build/notiflix-notify-aio';
+import { fetchGallery } from './api';
 
 const form = document.querySelector('.search-form');
 const input = document.querySelector('input');
@@ -17,16 +15,16 @@ form.addEventListener('submit', event => {
   page = 1;
   gallery.innerHTML = '';
   fetchGallery(value, page)
-    .then(data => makeGallery(data))
+    .then(allData => createPage(allData))
     .catch(error => console.log(error));
 });
 
 loadMore.addEventListener('click', () => {
   page++;
   let value = input.value;
-  console.log(page);
+
   fetchGallery(value, page)
-    .then(data => makeGallery(data))
+    .then(allData => createPage(allData))
     .catch(error => console.log(error));
 });
 
@@ -35,15 +33,11 @@ let modal = new SimpleLightbox('.photo-link', {
 });
 //----------------------------------------
 
-const fetchGallery = async (q, page) => {
-  const response = await axios.get(
-    `?key=39840691-deed82df9d56c5b25606cb90f&q=${q}&orientation=horizontal&safesearch=true&per_page=40&page=${page}&image_type=photo`
-  );
-  const allData = await response.data;
+async function createPage(allData) {
   const validateData = await validateArray(allData);
   const hits = await filterData(validateData);
-  return hits;
-};
+  await makeGallery(hits);
+}
 
 function validateArray(val) {
   if (!(val.total > 0)) {
@@ -80,7 +74,6 @@ function filterData(array) {
 }
 
 function makeGallery(data) {
-  console.log(data);
   data.forEach(element => {
     const {
       largeImage,
@@ -92,7 +85,6 @@ function makeGallery(data) {
       downloads,
     } = element;
 
-    console.log(largeImage);
     let markup = `<div class="photo-card">
     <a class = "photo-link" href ="${largeImage}">
   <img src="${webformatURL}" alt="${tags}" loading="lazy" /></a>
