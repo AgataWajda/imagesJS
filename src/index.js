@@ -30,8 +30,8 @@ loadMore.addEventListener('click', () => {
     .catch(error => console.log(error));
 });
 
-gallery.addEventListener('click', event => {
-  let modal = new SimpleLightbox(event, {});
+let modal = new SimpleLightbox('.photo-link', {
+  captionsData: 'alt',
 });
 //----------------------------------------
 
@@ -91,7 +91,8 @@ function makeGallery(data) {
       downloads,
     } = element;
     let markup = `<div class="photo-card">
-  <img src="${webformatURL}" alt="${tags}" loading="lazy" />
+    <a class = "photo-link" href ="${largeImageURL}">
+  <img src="${webformatURL}" alt="${tags}" loading="lazy" /></a>
   <div class="info">
     <p class="info-item">
       <b>Likes</b>
@@ -112,13 +113,6 @@ function makeGallery(data) {
   </div>
 </div>`;
     gallery.insertAdjacentHTML('beforeend', markup);
+    modal.refresh();
   });
-}
-
-function getmorePosts(page) {
-  let value = input.value;
-  page++;
-  fetchGallery(value, page)
-    .then(data => makeGallery(data))
-    .catch(error => console.log(error));
 }
