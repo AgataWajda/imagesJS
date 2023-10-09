@@ -46,17 +46,17 @@ function validateArray(val) {
     );
     loadMore.classList.add('is-hidden');
     throw new Error();
-  } else if (!val.hits[0]) {
-    Notify.failure(
-      `We're sorry, but you've reached the end of search results.`
-    );
-    loadMore.classList.add('is-hidden');
-    throw new Error();
   } else {
     if (page === 1) {
       Notify.success(`Hooray! We found ${val.totalHits} images.`);
     }
     loadMore.classList.remove('is-hidden');
+    if (val.hits.length < 40) {
+      Notify.warning(
+        `We're sorry, but you've reached the end of search results.`
+      );
+      loadMore.classList.add('is-hidden');
+    }
   }
   return val.hits;
 }
