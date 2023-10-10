@@ -8,24 +8,23 @@ const input = document.querySelector('input');
 const gallery = document.querySelector('.gallery');
 const loadMore = document.querySelector('.load-more');
 let page = 1;
-
+let lastQuerry;
 form.addEventListener('submit', event => {
   event.preventDefault();
   let value = input.value;
-  page = 1;
-  gallery.innerHTML = '';
-  fetchGallery(value, page)
-    .then(allData => createPage(allData))
-    .catch(error => console.log(error));
+  if (!(lastQuerry === value)) {
+    page = 1;
+    gallery.innerHTML = '';
+    createPage(value, page);
+  }
+  lastQuerry = input.value;
 });
 
 loadMore.addEventListener('click', () => {
   page++;
   let value = input.value;
 
-  fetchGallery(value, page)
-    .then(allData => createPage(allData))
-    .catch(error => console.log(error));
+  createPage(value, page);
 });
 
 let modal = new SimpleLightbox('.photo-link', {
@@ -33,10 +32,15 @@ let modal = new SimpleLightbox('.photo-link', {
 });
 //----------------------------------------
 
-async function createPage(allData) {
-  const validateData = await validateArray(allData);
-  const hits = await filterData(validateData);
-  await makeGallery(hits);
+async function createPage(value, page) {
+  try {
+    const allData = await fetchGallery(value, page);
+    const validateData = await validateArray(allData);
+    const hits = await filterData(validateData);
+    await makeGallery(hits);
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 function validateArray(val) {
