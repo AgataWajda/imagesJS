@@ -4,11 +4,16 @@ import { Notify } from 'notiflix/build/notiflix-notify-aio';
 import { fetchGallery } from './api';
 
 const form = document.querySelector('.search-form');
+const welcomeForm = document.querySelector('.welcome-form');
+const welcomePage = document.querySelector('.welcome-page');
 const input = document.querySelector('input');
+const welcomeInput = document.querySelector('.welcome-input');
 const gallery = document.querySelector('.gallery');
 const loadMore = document.querySelector('.load-more');
+
 let page = 1;
 let lastQuerry;
+
 form.addEventListener('submit', event => {
   event.preventDefault();
   let value = input.value;
@@ -18,6 +23,19 @@ form.addEventListener('submit', event => {
     createPage(value, page);
   }
   lastQuerry = input.value;
+});
+
+welcomeForm.addEventListener('submit', event => {
+  event.preventDefault();
+  let value = welcomeInput.value;
+  if (!(lastQuerry === value)) {
+    page = 1;
+    gallery.innerHTML = '';
+    createPage(value, page);
+  }
+  lastQuerry = welcomeInput.value;
+  form.classList.remove('is-hidden');
+  welcomePage.classList.add('is-hidden');
 });
 
 loadMore.addEventListener('click', () => {

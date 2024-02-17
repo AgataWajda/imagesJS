@@ -76,3 +76,28 @@ img {
 .load-more:hover {
   background-color: lightcyan;
 }
+
+.is-hidden {
+  display: none;
+}
+.gallery {
+  display: flex;
+}
+
+.welcome-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+
+.welcome-input {
+  box-sizing: border-box;
+  width: 400px;
+}
+
+.welcome-image {
+  width: 500px;
+  height: 300px;
+}
