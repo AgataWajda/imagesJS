@@ -113,14 +113,6 @@ img {
   position: relative;
 }
 
-.title {
-  margin: 0px;
-  padding: 20px;
-  font-size: 42px;
-  font-family: cursive;
-  color: rgb(21, 64, 104);
-}
-
 .welcome-submit-btn {
   width: 30%;
   background-color: lightblue;
@@ -128,6 +120,34 @@ img {
   cursor: pointer;
   border-width: 0px;
   border-radius: 5%;
+}
+
+@media screen and (max-width: 600px) {
+  .load-more {
+    width: 300px;
+    margin-left: calc((100vw - 300px) / 2);
+  }
+
+  .welcome-image {
+    width: 80%;
+    height: 30vh;
+  }
+
+  .welcome-input {
+    width: 80vw;
+  }
+
+  .welcome-submit-btn {
+    width: 150px;
+  }
+}
+
+.title {
+  margin: 0px;
+  padding: 20px;
+  font-size: 42px;
+  font-family: cursive;
+  color: rgb(21, 64, 104);
 }
 
 .welcome-submit-btn:hover {
