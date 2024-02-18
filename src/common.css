@@ -70,18 +70,24 @@ img {
   background-color: lightblue;
   font-size: 25px;
   cursor: pointer;
-  border-width: 1px;
+  border-width: 0px;
+  border-radius: 5%;
 }
 
 .load-more:hover {
   background-color: lightcyan;
 }
 
-.is-hidden {
-  display: none;
-}
 .gallery {
   display: flex;
+}
+
+.welcome-page {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-top: calc((100vh - 500px) / 2);
 }
 
 .welcome-form {
@@ -94,10 +100,40 @@ img {
 
 .welcome-input {
   box-sizing: border-box;
-  width: 400px;
+  width: 500px;
+  height: 50px;
+  font-size: 20px;
+  border-style: solid;
+  border-color: lightblue;
 }
 
 .welcome-image {
   width: 500px;
   height: 300px;
+  position: relative;
+}
+
+.title {
+  margin: 0px;
+  padding: 20px;
+  font-size: 42px;
+  font-family: cursive;
+  color: rgb(21, 64, 104);
+}
+
+.welcome-submit-btn {
+  width: 30%;
+  background-color: lightblue;
+  font-size: 25px;
+  cursor: pointer;
+  border-width: 0px;
+  border-radius: 5%;
+}
+
+.welcome-submit-btn:hover {
+  background-color: lightcyan;
+}
+
+.is-hidden {
+  display: none;
 }
